@@ -12,7 +12,7 @@ Installation
 git clone https://github.com/BipSync/gumbo.git
 cd gumbo
 phpize
-./configure --with-gumbo
+./configure
 make
 ```
 

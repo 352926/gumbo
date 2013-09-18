@@ -8,14 +8,7 @@ dnl without editing.
 dnl If your extension references something external, use with:
 
 PHP_ARG_WITH(gumbo, for gumbo support,
-Make sure that the comment is aligned:
-[  --with-gumbo             Include gumbo support])
-
-dnl Otherwise use enable:
-
-PHP_ARG_ENABLE(gumbo, whether to enable gumbo support,
-Make sure that the comment is aligned:
-[  --enable-gumbo           Enable gumbo support])
+[  --with-gumbo[[=DIR]]             Include gumbo support])
 
 if test "$PHP_GUMBO" != "no"; then
   dnl Write more examples of tests here...
