@@ -35,12 +35,12 @@ $rootNode = gumbo_output_get_root( $output );
 $getTextContent = function( $node ) use ( &$getTextContent ) {
     $textContent = "";
     switch ( gumbo_node_get_type( $node ) ) {
-        case 1: // element
+        case GUMBO_NODE_ELEMENT:
             foreach ( gumbo_element_get_children( $node ) as $childNode ) {
                 $textContent .= $getTextContent( $childNode );
             }
             break;
-        case 2: // text
+        case GUMBO_NODE_TEXT:
             $textContent = gumbo_text_get_text( $node );
             break;
     }
@@ -61,12 +61,21 @@ Function|Returns
 ---|---
 `gumbo_parse( $html )`|Gumbo Output Resource
 `gumbo_output_get_root( $output )`|Gumbo Node Resource
-`gumbo_node_get_type( $node )`|int ( 0=document, 1=element, 2=text, 3=cdata, 4=comment, 5=whitespace )
+`gumbo_node_get_type( $node )`|int (see constants)
 `gumbo_element_get_tag( $elementNode )`|string
 `gumbo_element_get_attributes( $elementNode )`|associative array
 `gumbo_element_get_children( $elementNode )`|array of Gumbo Node Resources
 `gumbo_text_get_text( $textNode )`|string
 `gumbo_destroy_output( $output )`|
+
+Constants
+=========
+* GUMBO_NODE_DOCUMENT
+* GUMBO_NODE_ELEMENT
+* GUMBO_NODE_TEXT
+* GUMBO_NODE_CDATA
+* GUMBO_NODE_COMMENT
+* GUMBO_NODE_WHITESPACE
 
 
 Contact
