@@ -1,14 +1,5 @@
 <?php
 
-$nodeTypes = [
-    "document",
-    "element",
-    "text",
-    "cdata",
-    "comment",
-    "whitespace"
-];
-
 $html = "<html><body><p>Hello World</p></body></html>";
 echo "html is: $html\n";
 $output = gumbo_parse( $html );
@@ -16,13 +7,10 @@ var_dump( $output );
 $root = gumbo_output_get_root( $output );
 
 function dig( $node ) {
-    global $nodeTypes;
-    
     var_dump( $node );
     $nodeType = gumbo_node_get_type( $node );
-    var_dump( $nodeTypes[ $nodeType ] );
-    switch ( $nodeTypes[ $nodeType ] ) {
-        case "element": {
+    switch ( $nodeType ) {
+        case GUMBO_NODE_ELEMENT: {
             var_dump( gumbo_element_get_tag( $node ) );
             $children = gumbo_element_get_children( $node );
             var_dump( $children );
@@ -31,7 +19,7 @@ function dig( $node ) {
             }
             break;
         }
-        case "text": {
+        case GUMBO_NODE_TEXT: {
             var_dump( gumbo_text_get_text( $node ) );
             break;
         }
@@ -48,12 +36,10 @@ $output = gumbo_parse( $html );
 $root = gumbo_output_get_root( $output );
 
 function getTextContent( $node ) {
-    global $nodeTypes;
-
     $textContent = "";
     $nodeType = gumbo_node_get_type( $node );
-    switch ( $nodeTypes[ $nodeType ] ) {
-        case "element": {
+    switch ( $nodeType ) {
+        case GUMBO_NODE_ELEMENT: {
             $tag = gumbo_element_get_tag( $node );
             if ( in_array( $tag, [ 'script', 'style' ] ) ) {
                 break;
@@ -64,7 +50,7 @@ function getTextContent( $node ) {
             }
             break;
         }
-        case "text": {
+        case GUMBO_NODE_TEXT: {
             $text = gumbo_text_get_text( $node );
             $textContent .= strlen( $text ) ? $text : " ";
             break;
@@ -109,3 +95,22 @@ foreach ( gumbo_element_get_children( $root ) as $child ) {
 echo "\n";
 gumbo_destroy_output( $output );
 
+$html = "<html><body><p>Hello World</p></body></html>";
+$output = gumbo_parse( $html );
+$rootNode = gumbo_output_get_root( $output );
+
+$getTextContent = function( $node ) use ( &$getTextContent ) {
+    $textContent = "";
+    switch ( gumbo_node_get_type( $node ) ) {
+        case GUMBO_NODE_ELEMENT:
+            foreach ( gumbo_element_get_children( $node ) as $childNode ) {
+                $textContent .= $getTextContent( $childNode );
+            }
+            break;
+        case GUMBO_NODE_TEXT:
+            $textContent = gumbo_text_get_text( $node );
+            break;
+    }
+    return $textContent;
+};
+echo $getTextContent( $rootNode );
