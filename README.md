@@ -14,12 +14,13 @@ cd gumbo
 phpize
 ./configure
 make
+make install
 ```
 
-This will build a 'gumbo.so' shared extension into the modules/ directory
+This will build a 'gumbo.so' shared extension, load it in php.ini using:
 
-php.ini:
 ```ini
+[gumbo]
 extension = gumbo.so
 ```
 
