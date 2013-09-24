@@ -63,7 +63,9 @@ Function|Returns
 `gumbo_parse( $html )`|Gumbo Output Resource
 `gumbo_output_get_root( $output )`|Gumbo Node Resource
 `gumbo_node_get_type( $node )`|int (see constants)
-`gumbo_element_get_tag( $elementNode )`|string
+`gumbo_element_get_tag_name( $elementNode )`|string
+`gumbo_element_get_tag_open( $elementNode )`|string
+`gumbo_element_get_tag_close( $elementNode )`|string
 `gumbo_element_get_attributes( $elementNode )`|associative array
 `gumbo_element_get_children( $elementNode )`|array of Gumbo Node Resources
 `gumbo_text_get_text( $textNode )`|string

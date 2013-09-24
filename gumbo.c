@@ -48,10 +48,12 @@ const zend_function_entry gumbo_functions[] = {
 	PHP_FE(gumbo_destroy_output, NULL)
 	PHP_FE(gumbo_output_get_root, NULL)
 	PHP_FE(gumbo_node_get_type, NULL)
-	PHP_FE(gumbo_element_get_tag, NULL)
+	PHP_FE(gumbo_element_get_tag_name, NULL)
 	PHP_FE(gumbo_element_get_children, NULL)
 	PHP_FE(gumbo_text_get_text, NULL)
 	PHP_FE(gumbo_element_get_attributes, NULL)
+	PHP_FE(gumbo_element_get_tag_open, NULL)
+	PHP_FE(gumbo_element_get_tag_close, NULL)
 	PHP_FE_END	/* Must be the last line in gumbo_functions[] */
 };
 /* }}} */
@@ -275,8 +277,8 @@ PHP_FUNCTION(gumbo_node_get_type)
 }
 /* }}} */
 
-/* {{{ proto string gumbo_element_get_tag(resource node) */
-PHP_FUNCTION(gumbo_element_get_tag) {
+/* {{{ proto string gumbo_element_get_tag_name(resource node) */
+PHP_FUNCTION(gumbo_element_get_tag_name) {
 
 	zval * resource;
 	if ( zend_parse_parameters( ZEND_NUM_ARGS() TSRMLS_CC, "r", &resource ) == FAILURE ) {
@@ -381,6 +383,52 @@ PHP_FUNCTION(gumbo_element_get_attributes) {
     }
 
     RETURN_ZVAL( array, 0, 0 );
+
+}
+/* }}} */
+
+/* {{{ proto string gumbo_element_get_tag_open(resource node) */
+PHP_FUNCTION(gumbo_element_get_tag_open) {
+
+	zval * resource;
+	if ( zend_parse_parameters( ZEND_NUM_ARGS() TSRMLS_CC, "r", &resource ) == FAILURE ) {
+		return;
+	}
+
+	ge_node * node = NULL;
+	ZEND_FETCH_RESOURCE( node, ge_node *, &resource, -1, le_gumbo_node_name, le_gumbo_node );
+
+    if ( node->node->type != GUMBO_NODE_ELEMENT ) {
+        RETURN_FALSE;
+    }
+
+    GumboElement * element = &node->node->v.element;
+    GumboStringPiece * openTag = &element->original_tag;
+    
+    RETURN_STRINGL( openTag->data, openTag->length, 1 );
+
+}
+/* }}} */
+
+/* {{{ proto string gumbo_element_get_tag_close(resource node) */
+PHP_FUNCTION(gumbo_element_get_tag_close) {
+
+	zval * resource;
+	if ( zend_parse_parameters( ZEND_NUM_ARGS() TSRMLS_CC, "r", &resource ) == FAILURE ) {
+		return;
+	}
+
+	ge_node * node = NULL;
+	ZEND_FETCH_RESOURCE( node, ge_node *, &resource, -1, le_gumbo_node_name, le_gumbo_node );
+
+    if ( node->node->type != GUMBO_NODE_ELEMENT ) {
+        RETURN_FALSE;
+    }
+
+    GumboElement * element = &node->node->v.element;
+    GumboStringPiece * closeTag = &element->original_end_tag;
+
+    RETURN_STRINGL( closeTag->data, closeTag->length, 1 );
 
 }
 /* }}} */

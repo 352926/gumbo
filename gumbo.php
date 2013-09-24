@@ -11,7 +11,7 @@ function dig( $node ) {
     $nodeType = gumbo_node_get_type( $node );
     switch ( $nodeType ) {
         case GUMBO_NODE_ELEMENT: {
-            var_dump( gumbo_element_get_tag( $node ) );
+            var_dump( gumbo_element_get_tag_name( $node ) );
             $children = gumbo_element_get_children( $node );
             var_dump( $children );
             foreach ( $children as $child ) {
@@ -40,7 +40,7 @@ function getTextContent( $node ) {
     $nodeType = gumbo_node_get_type( $node );
     switch ( $nodeType ) {
         case GUMBO_NODE_ELEMENT: {
-            $tag = gumbo_element_get_tag( $node );
+            $tag = gumbo_element_get_tag_name( $node );
             if ( in_array( $tag, [ 'script', 'style' ] ) ) {
                 break;
             }

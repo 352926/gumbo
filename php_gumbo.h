@@ -46,10 +46,12 @@ PHP_FUNCTION(gumbo_parse);
 PHP_FUNCTION(gumbo_destroy_output);
 PHP_FUNCTION(gumbo_output_get_root);
 PHP_FUNCTION(gumbo_node_get_type);
-PHP_FUNCTION(gumbo_element_get_tag);
+PHP_FUNCTION(gumbo_element_get_tag_name);
 PHP_FUNCTION(gumbo_element_get_children);
 PHP_FUNCTION(gumbo_text_get_text);
 PHP_FUNCTION(gumbo_element_get_attributes);
+PHP_FUNCTION(gumbo_element_get_tag_open);
+PHP_FUNCTION(gumbo_element_get_tag_close);
 
 /* 
   	Declare any global variables you may need between the BEGIN
